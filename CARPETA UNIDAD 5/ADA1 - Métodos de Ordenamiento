@@ -1,0 +1,83 @@
+#SUAREZ CANCHE ISAAC MOISES 3SB
+
+#METODO BURBUJA
+class burbuja:
+    def __init__(self, lista):
+        self.lista = lista
+
+    def ordenar(self):
+        n = len(self.lista)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if self.lista[j] > self.lista[j+1]:
+                    self.lista[j], self.lista[j+1] = self.lista[j+1], self.lista[j]
+
+    def obtener_ordenada(self):
+        return self.lista
+
+lista_para_ordenar = [64, 34, 25, 12, 22, 11, 90, 30, 59, 13, 42]
+burbuja = burbuja(lista_para_ordenar)
+burbuja.ordenar()
+print("Lista ordenada por Burbuja:")
+print(burbuja.obtener_ordenada())
+
+#METODO INSERCION
+class Insercion:
+    def __init__(self, productos):
+        self.productos = productos
+
+    def ordenamiento(self):
+        for i in range(1, len(self.productos)):
+            clave = self.productos[i]
+            j = i - 1
+            while j >= 0 and self.productos[j]["Nombre"] > clave["Nombre"]:
+                self.productos[j + 1] = self.productos[j]
+                j -= 1
+            self.productos[j + 1] = clave
+
+    def datos_ordenados(self):
+        return self.productos
+
+productos = [
+    {"Nombre": "Lápiz", "Precio": 7, "Unidades": 100},
+    {"Nombre": "Cuaderno", "Precio": 25, "Unidades": 50},
+    {"Nombre": "Borrador", "Precio": 10, "Unidades": 200},
+    {"Nombre": "Pluma", "Precio": 20, "Unidades": 70},
+    {"Nombre": "Corrector", "Precio": 22, "Unidades": 90},
+    {"Nombre": "Abaco", "Precio": 15, "Unidades": 10},
+    {"Nombre": "Perforadora", "Precio": 20, "Unidades": 20}
+]
+
+print("Lista de productos original:")
+for producto in productos:
+    print(producto)
+
+insercion = Insercion(productos)
+insercion.ordenamiento()
+
+print("\nLista de productos ordenada alfabéticamente:")
+for producto in insercion.datos_ordenados():
+    print(producto)
+
+#METODO SELECCION
+class seleccion:
+    def __init__(self, lista):
+        self.lista = lista
+
+    def ordenar(self):
+        n = len(self.lista)
+        for i in range(n):
+            min_index = i
+            for j in range(i+1, n):
+                if self.lista[j] < self.lista[min_index]:
+                    min_index = j
+            self.lista[i], self.lista[min_index] = self.lista[min_index], self.lista[i]
+
+    def obtener_ordenada(self):
+        return self.lista
+
+lista_a_ordenar = [89, 90, 53, 89, 67, 81, 77, 50, 60, 91, 72, 65, 40, 94, 88]
+seleccion = seleccion(lista_a_ordenar)
+seleccion.ordenar()
+print("Lista ordenada por Selección:")
+print(seleccion.obtener_ordenada())

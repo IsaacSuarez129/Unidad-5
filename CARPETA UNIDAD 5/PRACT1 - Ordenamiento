@@ -1,0 +1,56 @@
+# Suarez Canche Isaac Moises 3SB
+
+#BURBUJA
+class OrdenamientoBurbuja:
+    def __init__(self, arreglo):
+        self.arreglo = arreglo
+
+    def ordenar(self):
+        n = len(self.arreglo)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if self.arreglo[j] > self.arreglo[j+1]:
+                    self.arreglo[j], self.arreglo[j+1] = self.arreglo[j+1], self.arreglo[j]
+
+    def mostrar(self):
+        for i in range(len(self.arreglo)):
+            print("%d" % self.arreglo[i]),
+
+arreglo = [64, 34, 25, 12, 22, 11, 90]
+ordenamiento_burbuja = OrdenamientoBurbuja(arreglo)
+ordenamiento_burbuja.ordenar()
+print("Arreglo ordenado:")
+ordenamiento_burbuja.mostrar()
+
+#INSERCIÓN
+class OrdenamientoInsercion:
+    def ordenar_insercion(arreglo):
+        n = len(arreglo)
+        for i in range(1, n):
+            clave = arreglo[i]
+            j = i - 1
+            while j >= 0 and arreglo[j] > clave:
+                arreglo[j + 1] = arreglo[j]
+                j -= 1
+            arreglo[j + 1] = clave
+
+mi_arreglo = [12, 11, 13, 5, 6]
+OrdenamientoInsercion.ordenar_insercion(mi_arreglo)
+print("Arreglo ordenado:")
+print(mi_arreglo)
+
+#SELECCIÓN
+class OrdenamientoSeleccion:
+    def ordenar(arreglo):
+        n = len(arreglo)
+        for i in range(n):
+            indice_min = i
+            for j in range(i + 1, n):
+                if arreglo[j] < arreglo[indice_min]:
+                    indice_min = j
+            arreglo[i], arreglo[indice_min] = arreglo[indice_min], arreglo[i]
+
+mi_arreglo = [64, 25, 12, 22, 11]
+OrdenamientoSeleccion.ordenar(mi_arreglo)
+print("Arreglo ordenado:")
+print(mi_arreglo)

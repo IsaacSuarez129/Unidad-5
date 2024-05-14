@@ -1,0 +1,446 @@
+#Suarez Canche Isaac Moises 3SB
+#EJERCICIOS SHELLSORT
+#1
+class Persona:
+    def __init__(self, nombre, edad, altura):
+        self.nombre = nombre
+        self.edad = edad
+        self.altura = altura
+
+class ShellSort:
+    def sort(personas, key):
+        n = len(personas)
+        gap = n // 2
+        while gap > 0:
+            for i in range(gap, n):
+                temp = personas[i]
+                j = i
+                while j >= gap and getattr(personas[j - gap], key) > getattr(temp, key):
+                    personas[j] = personas[j - gap]
+                    j -= gap
+                personas[j] = temp
+            gap //= 2
+
+personas = [
+    Persona("Juan", 25, 180),
+    Persona("Maria", 30, 170),
+    Persona("Carlos", 20, 175)
+]
+
+ShellSort.sort(personas, "edad") 
+for persona in personas:
+    print(persona.nombre, persona.edad, persona.altura)
+
+
+#2
+import os
+
+class Archivo:
+    def __init__(self, nombre, tamaño):
+        self.nombre = nombre
+        self.tamaño = tamaño
+
+class ShellSort:
+    def sort(archivos):
+        n = len(archivos)
+        gap = n // 2
+        while gap > 0:
+            for i in range(gap, n):
+                temp = archivos[i]
+                j = i
+                while j >= gap and archivos[j - gap].tamaño > temp.tamaño:
+                    archivos[j] = archivos[j - gap]
+                    j -= gap
+                archivos[j] = temp
+            gap //= 2
+
+archivos = [Archivo(nombre, os.path.getsize(nombre)) for nombre in os.listdir()]
+ShellSort.sort(archivos)
+for archivo in archivos:
+    print(archivo.nombre, archivo.tamaño)
+
+#3
+class Producto:
+    def __init__(self, nombre, precio):
+        self.nombre = nombre
+        self.precio = precio
+
+    def __str__(self):
+        return f'{self.nombre}: ${self.precio}'
+
+class Supermercado:
+    def __init__(self, productos):
+        self.productos = productos
+
+    def ordenar_productos(self):
+        gap = len(self.productos) // 2
+        while gap > 0:
+            for i in range(gap, len(self.productos)):
+                temp = self.productos[i]
+                j = i
+                while j >= gap and self.productos[j - gap].precio > temp.precio:
+                    self.productos[j] = self.productos[j - gap]
+                    j -= gap
+                self.productos[j] = temp
+            gap //= 2
+
+    def mostrar_productos(self):
+        for producto in self.productos:
+            print(producto)
+
+productos = [Producto('Manzanas', 20), Producto('Leche', 15), Producto('Pan', 25), Producto('Huevos', 18)]
+supermercado = Supermercado(productos)
+supermercado.ordenar_productos()
+supermercado.mostrar_productos()
+
+
+#EJERCICIOS QUICKSORT
+#1
+class Contactos:
+    def __init__(self, contactos):
+        self.contactos = contactos
+    
+    def ordenar_contactos(self):
+        self._quicksort(0, len(self.contactos) - 1)
+    
+    def _quicksort(self, bajo, alto):
+        if bajo < alto:
+            pi = self._particionar(bajo, alto)
+            self._quicksort(bajo, pi - 1)
+            self._quicksort(pi + 1, alto)
+    
+    def _particionar(self, bajo, alto):
+        pivote = self.contactos[alto]
+        i = bajo - 1
+        for j in range(bajo, alto):
+            if self.contactos[j] < pivote:
+                i += 1
+                self.contactos[i], self.contactos[j] = self.contactos[j], self.contactos[i]
+        self.contactos[i + 1], self.contactos[alto] = self.contactos[alto], self.contactos[i + 1]
+        return i + 1
+    
+    def obtener_contactos_ordenados(self):
+        return self.contactos
+
+contactos = ["Carlos", "Ana", "Luis", "Beatriz", "Marta", "Isaac", "Juan", "Gabriela"]
+ordenador_de_contactos = Contactos(contactos)
+ordenador_de_contactos.ordenar_contactos()
+print("Contactos ordenados:", ordenador_de_contactos.obtener_contactos_ordenados())
+
+#2
+class Tarea:
+    def __init__(self, descripcion, prioridad):
+        self.descripcion = descripcion
+        self.prioridad = prioridad
+
+    def __lt__(self, otra):
+        return self.prioridad < otra.prioridad
+
+    def __repr__(self):
+        return f"({self.descripcion}, {self.prioridad})"
+
+class OrdenadorDeTareas:
+    def __init__(self, tareas):
+        self.tareas = tareas
+    
+    def ordenar_tareas(self):
+        self._quicksort(0, len(self.tareas) - 1)
+    
+    def _quicksort(self, bajo, alto):
+        if bajo < alto:
+            pi = self._particionar(bajo, alto)
+            self._quicksort(bajo, pi - 1)
+            self._quicksort(pi + 1, alto)
+    
+    def _particionar(self, bajo, alto):
+        pivote = self.tareas[alto]
+        i = bajo - 1
+        for j in range(bajo, alto):
+            if self.tareas[j] < pivote:
+                i += 1
+                self.tareas[i], self.tareas[j] = self.tareas[j], self.tareas[i]
+        self.tareas[i + 1], self.tareas[alto] = self.tareas[alto], self.tareas[i + 1]
+        return i + 1
+    
+    def obtener_tareas_ordenadas(self):
+        return self.tareas
+
+tareas = [Tarea("Estudiar", 2), Tarea("Comprar comida", 1), Tarea("Llamar a mamá", 3)]
+ordenador_de_tareas = OrdenadorDeTareas(tareas)
+ordenador_de_tareas.ordenar_tareas()
+print("Tareas ordenadas por prioridad:", ordenador_de_tareas.obtener_tareas_ordenadas())
+
+#3
+class Libros:
+    def __init__(self, libros):
+        self.libros = libros
+    
+    def ordenar_libros(self):
+        self._quicksort(0, len(self.libros) - 1)
+    
+    def _quicksort(self, bajo, alto):
+        if bajo < alto:
+            pi = self.particionar(bajo, alto)
+            self._quicksort(bajo, pi - 1)
+            self._quicksort(pi + 1, alto)
+    
+    def particionar(self, bajo, alto):
+        pivote = self.libros[alto]
+        i = bajo - 1
+        for j in range(bajo, alto):
+            if self.libros[j] < pivote:
+                i += 1
+                self.libros[i], self.libros[j] = self.libros[j], self.libros[i]
+        self.libros[i + 1], self.libros[alto] = self.libros[alto], self.libros[i + 1]
+        return i + 1
+    
+    def obtener_libros_ordenados(self):
+        return self.libros
+
+libros = ["El Quijote", "1984", "Cien Años de Soledad", "La Sombra del Viento", "Caperucita roja", "Los tres cochinitos", "50 Sombras de Grey"]
+ordenador_de_libros = Libros(libros)
+ordenador_de_libros.ordenar_libros()
+print("Libros ordenados por título:", ordenador_de_libros.obtener_libros_ordenados())
+
+#EJERCICIOS HEAPSORT
+#1
+class OrdenadorDePrecios:
+    def __init__(self, precios):
+        self.precios = precios
+    
+    def ordenar_precios(self):
+        self._heapsort()
+    
+    def _heapsort(self):
+        n = len(self.precios)
+        for i in range(n // 2 - 1, -1, -1):
+            self._heapify(n, i)
+        for i in range(n - 1, 0, -1):
+            self.precios[i], self.precios[0] = self.precios[0], self.precios[i]
+            self._heapify(i, 0)
+    
+    def _heapify(self, n, i):
+        mayor = i
+        izquierda = 2 * i + 1
+        derecha = 2 * i + 2
+        if izquierda < n and self.precios[izquierda] > self.precios[mayor]:
+            mayor = izquierda
+        if derecha < n and self.precios[derecha] > self.precios[mayor]:
+            mayor = derecha
+        if mayor != i:
+            self.precios[i], self.precios[mayor] = self.precios[mayor], self.precios[i]
+            self._heapify(n, mayor)
+    
+    def obtener_precios_ordenados(self):
+        return self.precios
+
+precios = [199.99, 59.99, 299.99, 89.99, 39.99, 28.52, 15.85, 5.99, 264.00]
+ordenador_de_precios = OrdenadorDePrecios(precios)
+ordenador_de_precios.ordenar_precios()
+print("Precios ordenados:", ordenador_de_precios.obtener_precios_ordenados())
+
+#2
+from datetime import datetime
+
+class Festividades_festivosas:
+    def __init__(self, festividades):
+        self.festividades = festividades
+    
+    def ordenar_festividades(self):
+        self._heapsort()
+    
+    def _heapsort(self):
+        n = len(self.festividades)
+        for i in range(n // 2 - 1, -1, -1):
+            self._heapify(n, i)
+        for i in range(n - 1, 0, -1):
+            self.festividades[i], self.festividades[0] = self.festividades[0], self.festividades[i]
+            self._heapify(i, 0)
+    
+    def _heapify(self, n, i):
+        mayor = i
+        izquierda = 2 * i + 1
+        derecha = 2 * i + 2
+        if izquierda < n and self.festividades[izquierda][0] > self.festividades[mayor][0]:
+            mayor = izquierda
+        if derecha < n and self.festividades[derecha][0] > self.festividades[mayor][0]:
+            mayor = derecha
+        if mayor != i:
+            self.festividades[i], self.festividades[mayor] = self.festividades[mayor], self.festividades[i]
+            self._heapify(n, mayor)
+    
+    def obtener_festividades_ordenadas(self):
+        return self.festividades
+
+    def formatear_festividades(self):
+        return [f"{fecha.strftime('%Y-%m-%d')} - {nombre}" for fecha, nombre in self.festividades]
+
+festividades = [
+    (datetime(2024, 12, 25), "Navidad"),
+    (datetime(2024, 7, 4), "Día de la Independencia"),
+    (datetime(2024, 1, 1), "Año Nuevo"),
+    (datetime(2024, 11, 2), "Día de Muertos"),
+    (datetime(2024, 10, 31), "Halloween"),
+    (datetime(2024, 5, 10), "Día de la Madre"),
+    (datetime(2024, 4, 30), "Día del Niño"),
+    (datetime(2024, 5, 15), "Día del Maestro")
+]
+
+ordenador_de_festividades = Festividades_festivosas(festividades)
+ordenador_de_festividades.ordenar_festividades()
+print("Festividades ordenadas de mayor a menor:", ordenador_de_festividades.formatear_festividades())
+
+#3
+class Puntuaciones:
+    def __init__(self, puntuaciones):
+        self.puntuaciones = puntuaciones
+    
+    def ordenar_puntuaciones(self):
+        self._heapsort()
+    
+    def _heapsort(self):
+        n = len(self.puntuaciones)
+        for i in range(n // 2 - 1, -1, -1):
+            self._heapify(n, i)
+        for i in range(n - 1, 0, -1):
+            self.puntuaciones[i], self.puntuaciones[0] = self.puntuaciones[0], self.puntuaciones[i]
+            self._heapify(i, 0)
+    
+    def _heapify(self, n, i):
+        mayor = i
+        izquierda = 2 * i + 1
+        derecha = 2 * i + 2
+        if izquierda < n and self.puntuaciones[izquierda] > self.puntuaciones[mayor]:
+            mayor = izquierda
+        if derecha < n and self.puntuaciones[derecha] > self.puntuaciones[mayor]:
+            mayor = derecha
+        if mayor != i:
+            self.puntuaciones[i], self.puntuaciones[mayor] = self.puntuaciones[mayor], self.puntuaciones[i]
+            self._heapify(n, mayor)
+    
+    def obtener_puntuaciones_ordenadas(self):
+        return self.puntuaciones
+
+puntuaciones = [1500, 3000, 2500, 4000, 3500, 200, 1100, 670, 2700 ]
+ordenador_de_puntuaciones = Puntuaciones(puntuaciones)
+ordenador_de_puntuaciones.ordenar_puntuaciones()
+print("Puntuaciones ordenadas:", ordenador_de_puntuaciones.obtener_puntuaciones_ordenadas())
+
+
+#EJERCICIOS RADIX
+#1
+class telefono:
+    def __init__(self, numeros_telefono):
+        self.numeros_telefono = numeros_telefono
+    
+    def ordenar(self):
+        maximo = max(self.numeros_telefono)
+        exp = 1
+        while maximo // exp > 0:
+            self._contar_ordenar(exp)
+            exp *= 10
+    
+    def _contar_ordenar(self, exp):
+        n = len(self.numeros_telefono)
+        conteo = [0] * 10
+        resultado = [0] * n
+
+        for num in self.numeros_telefono:
+            conteo[(num // exp) % 10] += 1
+
+        for i in range(1, 10):
+            conteo[i] += conteo[i - 1]
+
+        i = n - 1
+        while i >= 0:
+            indice = (self.numeros_telefono[i] // exp) % 10
+            resultado[conteo[indice] - 1] = self.numeros_telefono[i]
+            conteo[indice] -= 1
+            i -= 1
+
+        for i in range(n):
+            self.numeros_telefono[i] = resultado[i]
+
+numeros_telefono = [9992447863, 9995056292, 9997682146, 9996835547, 9991225981]
+ordenador = telefono(numeros_telefono)
+ordenador.ordenar()
+print("Números de teléfono ordenados:", numeros_telefono)
+
+#2
+class fechas_de_modificaciones:
+    def __init__(self, fechas_modificacion):
+        self.fechas_modificacion = fechas_modificacion
+    
+    def ordenar(self):
+        maximo = max(self.fechas_modificacion)
+        exp = 1
+        while maximo // exp > 0:
+            self._contar_ordenar(exp)
+            exp *= 10
+    
+    def _contar_ordenar(self, exp):
+        n = len(self.fechas_modificacion)
+        conteo = [0] * 10
+        resultado = [0] * n
+
+        for fecha in self.fechas_modificacion:
+            conteo[(fecha // exp) % 10] += 1
+
+        for i in range(1, 10):
+            conteo[i] += conteo[i - 1]
+
+        i = n - 1
+        while i >= 0:
+            indice = (self.fechas_modificacion[i] // exp) % 10
+            resultado[conteo[indice] - 1] = self.fechas_modificacion[i]
+            conteo[indice] -= 1
+            i -= 1
+
+        for i in range(n):
+            self.fechas_modificacion[i] = resultado[i]
+
+    def formatear_fechas(self):
+        return [str(fecha)[:4] + "-" + str(fecha)[4:6] + "-" + str(fecha)[6:] for fecha in self.fechas_modificacion]
+
+fechas_modificacion = [20240101, 20240704, 20240108, 20241102, 20241031, 20241225, 20240430, 20240510, 20240515]
+ordenador = fechas_de_modificaciones(fechas_modificacion)
+ordenador.ordenar()
+print("Fechas de modificación de archivos ordenadas:", ordenador.formatear_fechas())
+
+#3
+class codigos_de_barras:
+    def __init__(self, codigos_barras):
+        self.codigos_barras = codigos_barras
+    
+    def ordenar(self):
+        maximo = max(self.codigos_barras)
+        exp = 1
+        while maximo // exp > 0:
+            self._contar_ordenar(exp)
+            exp *= 10
+    
+    def _contar_ordenar(self, exp):
+        n = len(self.codigos_barras)
+        conteo = [0] * 10
+        resultado = [0] * n
+
+        for codigo in self.codigos_barras:
+            conteo[(codigo // exp) % 10] += 1
+
+        for i in range(1, 10):
+            conteo[i] += conteo[i - 1]
+
+        i = n - 1
+        while i >= 0:
+            indice = (self.codigos_barras[i] // exp) % 10
+            resultado[conteo[indice] - 1] = self.codigos_barras[i]
+            conteo[indice] -= 1
+            i -= 1
+
+        for i in range(n):
+            self.codigos_barras[i] = resultado[i]
+
+codigos_barras = [123456, 987654, 543210, 654321, 234567, 135792, 369258, 846135, 975318, 714206]
+ordenador = codigos_de_barras(codigos_barras)
+ordenador.ordenar()
+print("Productos ordenados por código de barras:", codigos_barras)

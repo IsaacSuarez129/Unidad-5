@@ -1,0 +1,144 @@
+# SUAREZ CANCHE ISAAC MOISES 3SB
+
+#INTERCALACIÓN
+class Tareas:
+    def __init__(self, nombre, fecha_vencimiento):
+        self.nombre = nombre
+        self.fecha_vencimiento = fecha_vencimiento
+
+    def __repr__(self):
+        return f'{self.nombre} - {self.fecha_vencimiento}'
+
+def ordenar_intercalacion(tareas):
+    if len(tareas) <= 1:
+        return tareas
+
+    medio = len(tareas) // 2
+    izquierda = ordenar_intercalacion(tareas[:medio])
+    derecha = ordenar_intercalacion(tareas[medio:])
+
+    return intercalar(izquierda, derecha)
+
+def intercalar(izquierda, derecha):
+    resultado = []
+    while izquierda and derecha:
+        if izquierda[0].fecha_vencimiento <= derecha[0].fecha_vencimiento:
+            resultado.append(izquierda.pop(0))
+        else:
+            resultado.append(derecha.pop(0))
+    resultado.extend(izquierda or derecha)
+    return resultado
+
+tareas = [
+    Tareas('Tarea 1', '2024-05-20'),
+    Tareas('Tarea 2', '2024-05-18'),
+    Tareas('Tarea 3', '2024-05-22'),
+    Tareas('Tarea 4', '2024-05-19'),
+    Tareas('Tarea 5', '2024-05-21'),
+    Tareas('Tarea 6', '2024-05-23'),
+    Tareas('Tarea 7', '2024-05-17'),
+    Tareas('Tarea 8', '2024-05-24'),
+    Tareas('Tarea 9', '2024-05-16'),
+    Tareas('Tarea 10', '2024-05-27')
+]
+
+tareas_ordenadas = ordenar_intercalacion(tareas)
+print(tareas_ordenadas)
+
+
+#MEZCLA DIRECTA
+class CitaMedica:
+    def __init__(self, paciente, hora):
+        self.paciente = paciente
+        self.hora = hora
+
+    def __repr__(self):
+        return f'{self.paciente} - {self.hora}'
+
+def ordenar_mezcla(citas):
+    if len(citas) <= 1:
+        return citas
+
+    medio = len(citas) // 2
+    izquierda = ordenar_mezcla(citas[:medio])
+    derecha = ordenar_mezcla(citas[medio:])
+
+    return mezclar(izquierda, derecha)
+
+def mezclar(izquierda, derecha):
+    resultado = []
+    while izquierda and derecha:
+        if izquierda[0].hora <= derecha[0].hora:
+            resultado.append(izquierda.pop(0))
+        else:
+            resultado.append(derecha.pop(0))
+    resultado.extend(izquierda or derecha)
+    return resultado
+
+citas = [
+    CitaMedica('Paciente 1', '09:00'),
+    CitaMedica('Paciente 2', '11:00'),
+    CitaMedica('Paciente 3', '10:30'),
+    CitaMedica('Paciente 4', '12:00'),
+    CitaMedica('Paciente 5', '08:00'),
+    CitaMedica('Paciente 6', '08:30'),
+    CitaMedica('Paciente 7', '10:20'),
+    CitaMedica('Paciente 8', '09:30'),
+    CitaMedica('Paciente 9', '05:00'),
+    CitaMedica('Paciente 10', '11:50'),
+    CitaMedica('Paciente 11', '07:15'),
+    CitaMedica('Paciente 12', '06:00'),
+    CitaMedica('Paciente 13', '06:30')
+]
+
+citas_ordenadas = ordenar_mezcla(citas)
+print(citas_ordenadas)
+
+
+#MEZCLA EQUILIBRADA
+class Mezcla_Equilibrada:
+    def __init__(self, datos):
+        self.datos = datos
+
+    def ordenar(self, datos):
+        if len(datos) <= 1:
+            return datos
+        else:
+            medio = len(datos) // 2
+            mitad_izquierda = datos[:medio]
+            mitad_derecha = datos[medio:]
+
+            self.ordenar(mitad_izquierda)
+            self.ordenar(mitad_derecha)
+
+            i = 0
+            j = 0
+            k = 0
+
+            while i < len(mitad_izquierda) and j < len(mitad_derecha):
+                if mitad_izquierda[i] < mitad_derecha[j]:
+                    datos[k] = mitad_izquierda[i]
+                    i += 1
+                else:
+                    datos[k] = mitad_derecha[j]
+                    j += 1
+                k += 1
+
+            while i < len(mitad_izquierda):
+                datos[k] = mitad_izquierda[i]
+                i += 1
+                k += 1
+
+            while j < len(mitad_derecha):
+                datos[k] = mitad_derecha[j]
+                j += 1
+                k += 1
+
+    def ordenar_datos(self):
+        self.ordenar(self.datos)
+        return self.datos
+
+contactos = ["Juan", "María", "Carlos", "Ana", "Pedro", "Laura", "Luis", "Elena", "Sergio", "Marta","Diego", "Claudia", "Pablo", "Lucía", "Andrea"]
+ordenador = Mezcla_Equilibrada(contactos)
+contactos_ordenados = ordenador.ordenar_datos()
+print(contactos_ordenados)
